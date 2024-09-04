@@ -1,0 +1,14 @@
+[package]
+name = "BackupTool"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+members = [ "backup",
+    "config",
+    "server",
+]
+
+[dependencies]
+config = {path = "config"}
+server = {path = "server"}

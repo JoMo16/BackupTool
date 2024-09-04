@@ -1,0 +1,16 @@
+backup:
+  # 指定需要备份的文件路径
+  file_path: "E:\test_backup_file"
+  # 自动备份时间
+  auto_backup_time: '20:00'
+server:
+  # 服务器的ip地址
+  server_ip_address: 192.168.10.5
+  # 服务器连接的端口， 默认 22
+  server_port: 22
+  # 登陆的用户
+  user: root
+  # 密码
+  password: 123
+  # 在服务器上的存储路径
+  remote_path: /usr/local/user_backup
