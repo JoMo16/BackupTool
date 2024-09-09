@@ -4,11 +4,15 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = [ "backup",
+members = [
+    "backup",
     "config",
+    "instruction",
     "server",
 ]
 
 [dependencies]
 config = {path = "config"}
 server = {path = "server"}
+backup = {path = "backup"}
+instruction = {path = "instruction"}

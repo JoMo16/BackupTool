@@ -1,5 +1,8 @@
 use serde::{Deserialize, Serialize};
 
+/*
+    Config
+ */
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
     backup: Backup,
@@ -16,7 +19,7 @@ impl Config {
 }
 
 /*
-    本地电脑的相关配置
+    备份的相关配置
  */
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Backup {
@@ -116,6 +119,8 @@ pub fn get_config () -> Config {
         }
     }
 }
+
+
 
 /*
     测试模块

@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::io::Write;
 use std::net::TcpStream;
 use ssh2::Session;
 
@@ -26,7 +27,7 @@ pub(crate) fn connect_server(server_ip_address: &str, server_port: u16) ->  Resu
     auth: jomo time: 2024.9.3
     根据建立的tcp连接再建立一个会话
  */
-pub fn build_session(server_ip_address: &str, server_port: u16, user: &str, password: &str) -> Result<Session, Box<dyn Error>>{
+pub(crate) fn build_session(server_ip_address: &str, server_port: u16, user: &str, password: &str) -> Result<Session, Box<dyn Error>>{
     let tcp_connect_result = connect_server(server_ip_address, server_port);    //获取tcp连接
     let tcp_connect_stream = match tcp_connect_result {
         Ok(tcp_stream) => {
@@ -51,6 +52,33 @@ pub fn build_session(server_ip_address: &str, server_port: u16, user: &str, pass
     Ok(session)
 
 }
+
+/*
+    auth: jomo time: 2024.9.4
+    将文件流上传到服务器
+ */
+pub fn sftp_upload_file_to_server(remote_path: &str, file_stream: Vec<u8>,server_ip_address: &str, server_port: u16, user: &str, password: &str) -> Result<(), Box<dyn Error>> {
+    // 获取session连接，判断上一个步骤是否出错
+    let sess = match build_session(server_ip_address, server_port, user, password){
+        Ok(session) => {
+            println!("建立session会话成功");
+            session
+        }
+        Err(e) => {
+            println!("建立session会话失败");
+            return Err(e)
+        }
+    };
+
+    // 创建sftp会话
+    let sftp = sess.sftp()?;
+    // 将文件上传至服务器
+    let mut remote_file = sftp.create(remote_path.as_ref())?;
+    let upload_result = remote_file.write_all(file_stream.as_ref())?;
+
+    Ok(upload_result)
+}
+
 
 /*
     测试模块
